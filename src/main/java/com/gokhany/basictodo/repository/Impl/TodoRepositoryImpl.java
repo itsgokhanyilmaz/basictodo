@@ -3,6 +3,7 @@ package com.gokhany.basictodo.repository.Impl;
 import com.gokhany.basictodo.entity.Todo;
 import com.gokhany.basictodo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -26,5 +27,10 @@ public class TodoRepositoryImpl implements TodoRepository {
     @Override
     public Todo save(Todo todo) {
         return mongoTemplate.save(todo);
+    }
+
+    @Override
+    public Todo remove(ObjectId todoId) {
+        return mongoTemplate.findAndRemove(Query.query(Criteria.where("_id").is(todoId)), Todo.class);
     }
 }

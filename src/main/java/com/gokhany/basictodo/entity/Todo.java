@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 
@@ -11,11 +12,15 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Todo {
+public class Todo extends BaseEntity {
 
     private String title;
+
     private String description;
-    private boolean done;
+
+    private Boolean done;
+
+    @Field("due_date")
     private Date dueDate;
 
 }

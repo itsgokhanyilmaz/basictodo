@@ -15,11 +15,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class TodoRequest {
 
+    @NotNull
     private String title;
 
+    @NotNull
     private String description;
 
-    private boolean done;
+    private Boolean done;
 
     @NotNull(message = "Due date cannot be null")
     @DateTimeFormat(pattern = "dd-MM-yyyy")

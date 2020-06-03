@@ -17,7 +17,7 @@ public class TodoResponse {
 
     private String description;
 
-    private boolean done;
+    private Boolean done;
 
     private Date dueDate;
 
