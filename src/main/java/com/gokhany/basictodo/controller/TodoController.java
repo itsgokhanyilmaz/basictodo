@@ -29,8 +29,8 @@ public class TodoController {
     }
 
     @DeleteMapping("remove-todo")
-    public ResponseEntity<TodoResponse> removeTodo(String todoId){
-        return new ResponseEntity<>(todoService.removeTodo(todoId), HttpStatus.OK);
+    public ResponseEntity<TodoResponse> removeTodo(String id){
+        return new ResponseEntity<>(todoService.removeTodo(id), HttpStatus.OK);
     }
 
 

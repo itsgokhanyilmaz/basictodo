@@ -30,7 +30,8 @@ public class TodoRepositoryImpl implements TodoRepository {
     }
 
     @Override
-    public Todo remove(ObjectId todoId) {
-        return mongoTemplate.findAndRemove(Query.query(Criteria.where("_id").is(todoId)), Todo.class);
+    public Optional<Todo> remove(ObjectId todoId) {
+        Todo todo = mongoTemplate.findAndRemove(Query.query(Criteria.where("_id").is(todoId)), Todo.class);
+        return Optional.ofNullable(todo);
     }
 }

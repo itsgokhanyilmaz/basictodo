@@ -38,8 +38,8 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public TodoResponse removeTodo(String todoId) {
-        Todo deletedTodo = todoRepository.remove(new ObjectId(todoId));
-        return modelMapper.map(deletedTodo, TodoResponse.class);
+    public TodoResponse removeTodo(String id) {
+        Todo todo = todoRepository.remove(new ObjectId(id)).orElseThrow(TodoNotFoundException::new);
+        return modelMapper.map(todo, TodoResponse.class);
     }
 }

@@ -11,5 +11,5 @@ public interface TodoRepository {
 
     Todo save(Todo todo);
 
-    Todo remove(ObjectId todoId);
+    Optional<Todo> remove(ObjectId todoId);
 }
