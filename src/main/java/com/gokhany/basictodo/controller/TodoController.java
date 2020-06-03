@@ -28,8 +28,8 @@ public class TodoController {
         return new ResponseEntity<>(todoService.saveTodo(todoRequest), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("remove-todo")
-    public ResponseEntity<TodoResponse> removeTodo(String id){
+    @DeleteMapping("remove-todo/{id}")
+    public ResponseEntity<TodoResponse> removeTodo(@PathVariable String id){
         return new ResponseEntity<>(todoService.removeTodo(id), HttpStatus.OK);
     }
 
