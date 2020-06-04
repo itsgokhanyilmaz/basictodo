@@ -7,10 +7,11 @@ import com.gokhany.basictodo.exception.TodoNotFoundException;
 import com.gokhany.basictodo.repository.TodoRepository;
 import com.gokhany.basictodo.service.TodoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.bson.types.ObjectId;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,15 +25,21 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public TodoResponse getTodo(String id) {
-        Optional<Todo> optionalTodo = todoRepository.getTodo(id);
-        Todo todo = optionalTodo.orElseThrow(TodoNotFoundException::new);
-        TodoResponse todoResponse = modelMapper.map(todo, TodoResponse.class);
-        return todoResponse;
+        Todo todo = todoRepository.getTodo(id).orElseThrow(TodoNotFoundException::new);
+        return modelMapper.map(todo, TodoResponse.class);
     }
 
-    // Todo
     @Override
-    public TodoResponse saveTodo(String id, TodoRequest todoRequest) {
-        return null;
+    public TodoResponse saveTodo(TodoRequest todoRequest) {
+        final Todo todo = modelMapper.map(todoRequest, Todo.class);
+        Todo savedTodo = todoRepository.save(todo);
+
+        return modelMapper.map(savedTodo, TodoResponse.class);
+    }
+
+    @Override
+    public TodoResponse removeTodo(String id) {
+        Todo todo = todoRepository.remove(new ObjectId(id)).orElseThrow(TodoNotFoundException::new);
+        return modelMapper.map(todo, TodoResponse.class);
     }
 }

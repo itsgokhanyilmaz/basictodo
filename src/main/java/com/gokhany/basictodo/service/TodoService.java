@@ -7,7 +7,8 @@ public interface TodoService {
 
     TodoResponse getTodo(String id);
 
-    // Todo
-    TodoResponse saveTodo(String id, TodoRequest todoRequest);
+    TodoResponse saveTodo(TodoRequest todoRequest);
+
+    TodoResponse removeTodo(String todoId);
 
 }
