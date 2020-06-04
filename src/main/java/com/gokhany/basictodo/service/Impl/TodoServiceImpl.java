@@ -42,4 +42,16 @@ public class TodoServiceImpl implements TodoService {
         Todo todo = todoRepository.remove(new ObjectId(id)).orElseThrow(TodoNotFoundException::new);
         return modelMapper.map(todo, TodoResponse.class);
     }
+
+    @Override
+    public TodoResponse updateTodoDetail(String id, TodoRequest todoRequest) {
+
+        todoRepository.updateTodoDetail(id, todoRequest);
+        Todo todo = todoRepository.getTodo(id)
+                .orElseThrow(TodoNotFoundException::new);
+
+        return modelMapper.map(todo, TodoResponse.class);
+    }
+
+
 }

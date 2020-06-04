@@ -1,5 +1,6 @@
 package com.gokhany.basictodo.repository;
 
+import com.gokhany.basictodo.dto.Request.TodoRequest;
 import com.gokhany.basictodo.entity.Todo;
 import org.bson.types.ObjectId;
 
@@ -12,4 +13,6 @@ public interface TodoRepository {
     Todo save(Todo todo);
 
     Optional<Todo> remove(ObjectId todoId);
+
+    void updateTodoDetail(String id,TodoRequest todoRequest);
 }
