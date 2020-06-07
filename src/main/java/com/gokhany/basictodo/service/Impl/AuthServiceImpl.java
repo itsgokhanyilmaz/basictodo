@@ -3,9 +3,11 @@ package com.gokhany.basictodo.service.Impl;
 import com.gokhany.basictodo.dto.Request.AuthRequest;
 import com.gokhany.basictodo.dto.Response.AuthResponse;
 import com.gokhany.basictodo.entity.User;
+import com.gokhany.basictodo.exception.UserOrPasswordWrongException;
 import com.gokhany.basictodo.exception.UsernameExistException;
 import com.gokhany.basictodo.repository.UserRepository;
 import com.gokhany.basictodo.service.AuthService;
+import com.gokhany.basictodo.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +27,9 @@ public class AuthServiceImpl implements AuthService {
     private final ModelMapper modelMapper;
 
     @NotNull
+    private final JwtUtil jwtUtil;
+
+    @NotNull
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -41,13 +46,22 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userRepository.save(user);
 
         AuthResponse authResponse = modelMapper.map(savedUser, AuthResponse.class);
-        //authResponse.setToken(jwtUtil.createToken(savedUser.getId()));
+        authResponse.setToken(jwtUtil.createToken(savedUser.getId()));
 
         return authResponse;
     }
 
     @Override
     public AuthResponse loginUser(String username, String password) {
-        return null;
+        Optional<User> optionalUser = userRepository.findByUserName(username);
+        final User user = optionalUser.orElseThrow(UserOrPasswordWrongException::new);
+
+        if (bCryptPasswordEncoder.matches(password, user.getPassword())){
+            AuthResponse authResponse = modelMapper.map(user, AuthResponse.class);
+            authResponse.setToken(jwtUtil.createToken(user.getId()));
+            return authResponse;
+        }else{
+            throw new UserOrPasswordWrongException();
+        }
     }
 }

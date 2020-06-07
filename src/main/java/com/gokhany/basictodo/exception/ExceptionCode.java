@@ -9,5 +9,7 @@ public final class ExceptionCode {
     static final String USER_NOT_FOUND = "Exception.userNotFound";
 
     static final String USERNAME_EXIST = "Exception.userNameExist";
+
+    static final String USER_OR_PASSWORD_WRONG = "Exception.userOrPasswordWrong";
     
 }
