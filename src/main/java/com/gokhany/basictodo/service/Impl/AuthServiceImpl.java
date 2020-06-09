@@ -53,8 +53,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse loginUser(String username, String password) {
-        Optional<User> optionalUser = userRepository.findByUserName(username);
-        final User user = optionalUser.orElseThrow(UserOrPasswordWrongException::new);
+        final User user = userRepository.findByUserName(username)
+                .orElseThrow(UserOrPasswordWrongException::new);
 
         if (bCryptPasswordEncoder.matches(password, user.getPassword())){
             AuthResponse authResponse = modelMapper.map(user, AuthResponse.class);
